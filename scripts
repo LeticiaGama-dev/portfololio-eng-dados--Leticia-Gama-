@@ -1,355 +1,236 @@
-EXERCICIO 01 - SELECT
+-- EXERCICIO 01 - SELECT
+SELECT FirstName, LastName
+FROM Person.Person;
 
-SQL
-SELECT firstName,lastName
-FROM person.person;
+-- EXERCICIO 02 - DISTINCT
+SELECT DISTINCT LastName
+FROM Person.Person;
 
+-- EXERCICIO 03 - WHERE
+-- DESAFIO 3/1
+SELECT Name
+FROM Production.Product
+WHERE Weight > 500 AND Weight <= 700;
 
-EXERCICIO 02 - DISTINCT
-
-SQL
-
-SELECT DISTINCT lastName
-FROM person.person;
-
-EXERCICIO 03 - WHERE
-DESAFIO 3/1
-
-SQL
-
-SELECT name
-FROM Production.product
-WHERE Weight > 500 AND weight <= 700;
-
-DESAFIO 3/2
-
-SQL
-
+-- DESAFIO 3/2
 SELECT *
 FROM HumanResources.Employee
-WHERE MaritalStatus = 'm' AND SalariedFlag = 1;
+WHERE MaritalStatus = 'M' AND SalariedFlag = 1;
 
-DESAFIO 3/3
-
-SQL
-
-
-
+-- DESAFIO 3/3
 SELECT *
 FROM Person.Person
-WHERE FirstName = 'peter' AND LastName = 'krebs'
+WHERE FirstName = 'Peter' AND LastName = 'Krebs';
 
 SELECT *
-FROM person.EmailAddress
+FROM Person.EmailAddress
 WHERE BusinessEntityID = 26;
 
-EXERCICIO 04 - COUNT
-
-DESAFIOS
-DESAFIO 4/1
-
-SQL
-
+-- EXERCICIO 04 - COUNT
+-- DESAFIO 4/1
 SELECT COUNT(DISTINCT ProductID)
 FROM Production.Product;
-DESAFIO 4/2
 
-SQL
-
+-- DESAFIO 4/2
 SELECT COUNT(Size)
 FROM Production.Product;
 
-DESAFIO 4/3
-
-SQL
-
+-- DESAFIO 4/3
 SELECT COUNT(DISTINCT Size)
 FROM Production.Product;
 
-EXERCICIO 05 - ORDER BY
-
-DESAFIO 5/1
-SQL
-
+-- EXERCICIO 05 - ORDER BY
+-- DESAFIO 5/1
 SELECT TOP 10 ProductID
 FROM Production.Product
-ORDER BY Listprice DESC;
+ORDER BY ListPrice DESC;
 
-DESAFIO 5/2
-
-SQL
-
-SELECT TOP 4 name,ProductNumber
+-- DESAFIO 5/2
+SELECT TOP 4 Name, ProductNumber
 FROM Production.Product
-ORDER BY ProductID ASC 
+ORDER BY ProductID ASC;
 
-EXERCICIO 06 - BETWEEN, IN e LIKE
-
-DESAFIO 6/1
-
-SQL
-
+-- EXERCICIO 06 - BETWEEN, IN e LIKE
+-- DESAFIO 6/1
 SELECT COUNT(ProductID)
-FROM production.product
-WHERE ListPrice > 1500
+FROM Production.Product
+WHERE ListPrice > 1500;
 
-DESAFIO 6/2
-SQL
+-- DESAFIO 6/2
+SELECT *
+FROM Person.Person
+WHERE LastName LIKE 'P%';
 
-SELECT * 
-FROM person.person
-WHERE LastName LIKE 'P%'
+-- DESAFIO 6/3
+SELECT COUNT(DISTINCT City)
+FROM Person.Address;
 
-DESAFIO 6/3
+-- DESAFIO 6/4
+SELECT DISTINCT City
+FROM Person.Address;
 
-SQL
-
-SELECT count(DISTINCT City)
-FROM Person.Address
-
-DESAFIO 6/4
-
-SQL
-
-SELECT  DISTINCT (City)
-FROM Person.Address
-
-DESAFIO 6/5
-
-SQL
-
-SELECT  COUNT (*)
+-- DESAFIO 6/5
+SELECT COUNT(*)
 FROM Production.Product
 WHERE ListPrice BETWEEN 500 AND 1000
-AND color = 'red'
+  AND Color = 'Red';
 
-DESAFIO 6/5
-
-SQL
-
-SELECT  COUNT (*)
+-- DESAFIO 6/6
+SELECT COUNT(*)
 FROM Production.Product
-WHERE Name LIKE '%road%
+WHERE Name LIKE '%road%';
 
-EXERCICIO 07 - GROUP BY
+-- EXERCICIO 07 - GROUP BY
+-- DESAFIO 7/1
+SELECT MiddleName, COUNT(MiddleName) AS Quantidade
+FROM Person.Person
+GROUP BY MiddleName;
 
-DESAFIO 7/1
-SQL
+-- DESAFIO 7/2
+SELECT ProductID, AVG(OrderQty) AS Media_Vendas
+FROM Sales.SalesOrderDetail
+GROUP BY ProductID;
 
-SELECT  MiddleName, COUNT(MiddleName) AS "Quantidade"
-FROM person.person
-GROUP BY MiddleName
-
-DESAFIO 7/2
-
-SQL
-
-SELECT  ProductID,AVG(OrderQty) As "média_vendas"
-FROM sales.SalesOrderDetail
-GROUP BY ProductID
-
-DESAFIO 7/3
-SQL
-
-SELECT  TOP 10 ProductID,SUM(lineTotal)
-FROM sales.SalesOrderDetail
-Group BY ProductID
-ORDER BY SUM(LineTotal)DESC;
-
-DESAFIO 7/4
-SQL
-
-SELECT productid,COUNT(productid) "Contagem",
-AVG (orderqty) AS "Media"
-FROM Production.WorkOrder
-Group BY ProductID
-
-DESAFIO 8/1
-
-SQL
-
-SELECT StateProvinceID,COUNT(stateprovinceid) "quantidade"
-FROM person.address
-Group BY StateProvinceID
-HAVING COUNT(stateprovinceid) > 1000
-
-DESAFIO 8/2
-SQL
-
-SELECT ProductID,AVG(linetotal)
+-- DESAFIO 7/3
+SELECT TOP 10 ProductID, SUM(LineTotal)
 FROM Sales.SalesOrderDetail
 GROUP BY ProductID
-HAVING AVG(linetotal) < 1000000;
+ORDER BY SUM(LineTotal) DESC;
 
-EXERCICIO 09 - AS
+-- DESAFIO 7/4
+SELECT ProductID, COUNT(ProductID) AS Contagem,
+       AVG(OrderQty) AS Media
+FROM Production.WorkOrder
+GROUP BY ProductID;
 
-DESAFIO 9/1
-SQL
+-- DESAFIO 8/1
+SELECT StateProvinceID, COUNT(StateProvinceID) AS Quantidade
+FROM Person.Address
+GROUP BY StateProvinceID
+HAVING COUNT(StateProvinceID) > 1000;
 
-SELECT FirstName AS "Nome", LastName AS "Sobrenome"
-FROM person.person;
+-- DESAFIO 8/2
+SELECT ProductID, AVG(LineTotal)
+FROM Sales.SalesOrderDetail
+GROUP BY ProductID
+HAVING AVG(LineTotal) < 1000000;
 
-DESAFIO 9/2
-SQL
+-- EXERCICIO 09 - AS
+-- DESAFIO 9/1
+SELECT FirstName AS Nome, LastName AS Sobrenome
+FROM Person.Person;
 
-SELECT ProductNumber AS "Numero do Produto"
-FROM production.product;
+-- DESAFIO 9/2
+SELECT ProductNumber AS Numero_Do_Produto
+FROM Production.Product;
 
-DESAFIO 9/3
+-- DESAFIO 9/3
+SELECT UnitPrice AS Preco_Unitario
+FROM Sales.SalesOrderDetail;
 
-SQL
-
-SELECT unitPrice AS "Preço Unitário"
-FROM sales.SalesOrderDetail;
-
-EXERCICIO 10 - INNER JOIN
-
-DESAFIO 10/1
-SQL
-
-SELECT PP.BusinessEntityID,PT.name,PT.PhoneNumberTypeID,PP.PhoneNumber
-FROM person.PhoneNumberType AS "PT"
-INNER JOIN person.personPhone AS "PP"
+-- EXERCICIO 10 - INNER JOIN
+-- DESAFIO 10/1
+SELECT PP.BusinessEntityID, PT.Name, PT.PhoneNumberTypeID, PP.PhoneNumber
+FROM Person.PhoneNumberType AS PT
+INNER JOIN Person.PersonPhone AS PP
 ON PP.PhoneNumberTypeID = PT.PhoneNumberTypeID;
 
-DESAFIO 10/2
+-- DESAFIO 10/2
+SELECT PA.AddressID, PA.City, SP.StateProvinceID, SP.Name
+FROM Person.Address AS PA
+INNER JOIN Person.StateProvince AS SP
+ON PA.StateProvinceID = SP.StateProvinceID;
 
-SQL
-
-SELECT pa.AddressID,pa.City,sp.StateProvinceID,sp.Name
-FROM person.Address AS "pa"
-INNER JOIN person.StateProvince AS "sp"
-ON pa.StateProvinceID = sp.StateProvinceID
-
-EXERCICIO 10 - UNION
-
-SQL
-
+-- EXERCICIO 10 - UNION
 SELECT FirstName
-FROM person.person
+FROM Person.Person
 WHERE FirstName = 'Ken'
 UNION
 SELECT MiddleName
-From person.person
+FROM Person.Person
 WHERE MiddleName = 'J';
 
-EXERCICIO 11 - UNION
+-- EXERCICIO 11 - UNION
+SELECT A.ProductID, A.Discount, B.ProductID, B.Discount
+FROM [Order Details] A, [Order Details] B
+WHERE A.Discount = B.Discount;
 
-DESAFIO
-SQL
-
-SELECT A.productID,A.Discount,B.productID,B.Discount
-FROM [Order Details] a,[Order Details] b
-WHERE A.Discount = B.Discount
-
-EXERCICIO 12 - SUBQUERIES ou SUBSELECT
-
-DESAFIO
-SQL
-
+-- EXERCICIO 12 - SUBQUERIES ou SUBSELECT
 SELECT *
 FROM Person.Address
 WHERE StateProvinceID IN (
-SELECT StateProvinceID FROM person.StateProvince
-WHERE Name = 'Alberta')
+    SELECT StateProvinceID
+    FROM Person.StateProvince
+    WHERE Name = 'Alberta'
+);
 
-EXERCICIO 13 - SUBQUERIES ou SUBSELECT
+-- EXERCICIO 13 - SUBQUERIES ou SUBSELECT
+-- DESAFIO DATEPART
+SELECT ModifiedDate, DATEPART(MONTH, ModifiedDate) AS Mes
+FROM Person.Person
+ORDER BY Mes ASC;
 
-DESAFIO DATEPART
+-- EXERCICIO 14 - MANIPULACAO DE STRING
+-- CONCAT
+SELECT TOP 3 CONCAT(FirstName, LastName)
+FROM Person.Person;
 
-SQL
+-- UPPER e LOWER
+SELECT TOP 3 UPPER(FirstName), LOWER(LastName)
+FROM Person.Person;
 
-SELECT ModifiedDate, DATEPART (MONTH,ModifiedDate) as mês
-FROM person.person
-ORDER BY mês ASC;
+-- LEN
+SELECT TOP 3 LastName, LEN(LastName)
+FROM Person.Person;
 
-EXERCICIO 14 - MANIPULAÇÂO DE STRING
+-- SUBSTRING
+SELECT TOP 3 LastName, SUBSTRING(LastName, 1, 3)
+FROM Person.Person;
 
-DESAFIO
-SQL
+-- EXERCICIO 14 - ROUND
+SELECT ListPrice, ROUND(ListPrice, 2)
+FROM Production.Product;
 
-SELECT TOP 3 CONCAT(FirstName,LastName)
-FROM Person.person
+-- EXERCICIO 16 - INSERT INTO
+INSERT INTO Canal(CanalID, Nome, ContagemInscritos, DataCriacao)
+VALUES (1, 'Leticia', 2, '2019-01-01');
 
-SELECT TOP 3 UPPER (FirstName),LOWER(LastName)
-FROM person.person
-
-SELECT TOP 3LastNAme, LEN(LastName)
-FROM person.person
-
-SELECT TOP 3 LastName, SUBSTRING(Lastname,1,3)
-FROM person.person
-
-
-EXERCICIO 14 - MANIPULAÇÃO DE STRING
-
-DESAFIO ROUND
-
-SQL
-
-SELECT 
-ListPrice, ROUND(listprice,2)
-FROM Production.product
-
-Exercicio 15 é um print das chaves 
-
-EXERCICIO 16 - INSERT INTO
-
-SQL
-
-INSERT INTO Canal(CanalID,Nome, ContagemInscritos,DataCriacao)
-VALUES(1,'Leticia',2,2019/01/01)
-
-EXERCICIO 17 - UPDATE
-
-SQL
-
+-- EXERCICIO 17 - UPDATE
 UPDATE Canal
 SET Nome = 'Rebeca'
-WHERE CanalID = 1
+WHERE CanalID = 1;
 
-EXERCICIO 18 - ALTERTABLE
-
-SQL
-
+-- EXERCICIO 18 - ALTER TABLE
 ALTER TABLE Canal
-ADD ativo BIT
+ADD Ativo BIT;
 
-EXERCICIO 19 - CREATE TABLE e NOT NULL
-
-SQL
-
+-- EXERCICIO 19 - CREATE TABLE e NOT NULL
 CREATE TABLE Pgto (
-Id INT NOT NULL,
-Nome varchar (255) NOT NULL,
-Valor int CHECK (Valor>= 100)
+    Id INT NOT NULL,
+    Nome VARCHAR(255) NOT NULL,
+    Valor INT CHECK (Valor >= 100)
 );
 
 CREATE TABLE Quant (
-Id INT NOT NULL,
-Nome varchar (255) NOT NULL,
-Valor int CHECK (Valor >2)
+    Id INT NOT NULL,
+    Nome VARCHAR(255) NOT NULL,
+    Valor INT CHECK (Valor > 2)
 );
 
-EXERCICIO 20 - UNIQUE
-
-SQL
-
+-- EXERCICIO 20 - UNIQUE
 CREATE TABLE Pgto1 (
-Id INT NOT NULL,
-Nome varchar (255) NOT NULL,
-Valor int CHECK (Valor>= 100),
-Senha int NOT NULL UNIQUE
+    Id INT NOT NULL,
+    Nome VARCHAR(255) NOT NULL,
+    Valor INT CHECK (Valor >= 100),
+    Senha INT NOT NULL UNIQUE
 );
 
 CREATE TABLE Quant1 (
-Id INT NOT NULL,
-Nome varchar (255) NOT NULL,
-Valor int CHECK (Valor >2),
-Codigo int NOT NULL UNIQUE
+    Id INT NOT NULL,
+    Nome VARCHAR(255) NOT NULL,
+    Valor INT CHECK (Valor > 2),
+    Codigo INT NOT NULL UNIQUE
 );
-
-
 
 
 
