@@ -3,6 +3,7 @@
 
 Todos os exercícios e prints estão organizados no Coda.  
 Trata-se de uma plataforma de trabalho que une documentos, planilhas e aplicativos em um só lugar, podendo ser usado para projetos individuais ou trabalhos colaborativos.
+
 Relacionado abaixo estão:
 
 Vídeo tutorial sobre a plataforma CODA
