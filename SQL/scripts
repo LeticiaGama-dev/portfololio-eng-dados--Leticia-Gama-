@@ -1,23 +1,28 @@
 -- EXERCICIO 01 - SELECT
+--Selecione na tabela o nome e o sobrenome
 SELECT FirstName, LastName
 FROM Person.Person;
 
 -- EXERCICIO 02 - DISTINCT
+--Selecione os sobrenomes que aparecem somente uma vez na tabela
 SELECT DISTINCT LastName
 FROM Person.Person;
 
 -- EXERCICIO 03 - WHERE
 -- DESAFIO 3/1
+-- A equipe de produção de produtos precisa do nome de todas as peças que pesam mais de 500 kg mas não mais que 700kg para inspeção.
 SELECT Name
 FROM Production.Product
 WHERE Weight > 500 AND Weight <= 700;
 
 -- DESAFIO 3/2
+--Foi pedido pelo marketing uma relação de todos os empregados (employees) que são casados (single=solteiro,married=casado) e são assalariados(salaried).
 SELECT *
 FROM HumanResources.Employee
 WHERE MaritalStatus = 'M' AND SalariedFlag = 1;
 
 -- DESAFIO 3/3
+--Um usuário chamado Peter Krebs está devendo um pagamento, consiga o email dele para que possamos enviar uma cobrança!
 SELECT *
 FROM Person.Person
 WHERE FirstName = 'Peter' AND LastName = 'Krebs';
@@ -28,88 +33,106 @@ WHERE BusinessEntityID = 26;
 
 -- EXERCICIO 04 - COUNT
 -- DESAFIO 4/1
+-- Quantos produtos temos cadastrados em nossa tabela de produtos (production.product)
 SELECT COUNT(DISTINCT ProductID)
 FROM Production.Product;
 
 -- DESAFIO 4/2
+-- Quantos tamanhos de produtos temos cadastrado em nossa tabela (production.product)
 SELECT COUNT(Size)
 FROM Production.Product;
 
 -- DESAFIO 4/3
+-- Quantos tamanhos diferentes de produtos temos cadastrados em nossa tabela (production.product)
 SELECT COUNT(DISTINCT Size)
 FROM Production.Product;
 
 -- EXERCICIO 05 - ORDER BY
 -- DESAFIO 5/1
+-- Obter o ProductID dos 10 produtos mais caros cadastrados no sistema, listando do mais caro para o mais barato
 SELECT TOP 10 ProductID
 FROM Production.Product
 ORDER BY ListPrice DESC;
 
 -- DESAFIO 5/2
+-- Obter o nome e o número dos produtos que tem o ProductID entre 1~4
 SELECT TOP 4 Name, ProductNumber
 FROM Production.Product
 ORDER BY ProductID ASC;
 
 -- EXERCICIO 06 - BETWEEN, IN e LIKE
 -- DESAFIO 6/1
+-- Quantos produtos temos cadastrado no sistema que custam mais que 1500 dólares?
 SELECT COUNT(ProductID)
 FROM Production.Product
 WHERE ListPrice > 1500;
 
 -- DESAFIO 6/2
+-- Quantas pessoas temos com o sobrenome que inicia com a letra P?
 SELECT *
 FROM Person.Person
 WHERE LastName LIKE 'P%';
 
 -- DESAFIO 6/3
+-- Em quantas cidades únicas estão cadastrados nossos clientes?
 SELECT COUNT(DISTINCT City)
 FROM Person.Address;
 
 -- DESAFIO 6/4
+-- Quais são as cidades únicas que estão cadastradas no sistema?
 SELECT DISTINCT City
 FROM Person.Address;
 
 -- DESAFIO 6/5
+-- Quantos produtos vermelhos tem preço entre 500 a 1000 dolares?
 SELECT COUNT(*)
 FROM Production.Product
 WHERE ListPrice BETWEEN 500 AND 1000
   AND Color = 'Red';
 
 -- DESAFIO 6/6
+-- Quantos produtos cadstrados tem a palavra "road" no nome?
 SELECT COUNT(*)
 FROM Production.Product
 WHERE Name LIKE '%road%';
 
 -- EXERCICIO 07 - GROUP BY
 -- DESAFIO 7/1
+-- Quantas pessoas tem o mesmo MiddleName agrupadas por MiddleName?
 SELECT MiddleName, COUNT(MiddleName) AS Quantidade
 FROM Person.Person
 GROUP BY MiddleName;
 
 -- DESAFIO 7/2
+-- Em média, qual é a quantidade (quantity) que cada produto é vendido na loja?
 SELECT ProductID, AVG(OrderQty) AS Media_Vendas
 FROM Sales.SalesOrderDetail
 GROUP BY ProductID;
 
 -- DESAFIO 7/3
+-- Quais foram as 10 vendas que no total tiveram os maiores valores de venda (line total) por produto, do maior para o menor valor?
 SELECT TOP 10 ProductID, SUM(LineTotal)
 FROM Sales.SalesOrderDetail
 GROUP BY ProductID
 ORDER BY SUM(LineTotal) DESC;
 
 -- DESAFIO 7/4
+-- Quantos produtos e qual a quantidade média de produtos temos cadastrados na ordem de serviço (WorkOrder), agrupados por productID
 SELECT ProductID, COUNT(ProductID) AS Contagem,
        AVG(OrderQty) AS Media
 FROM Production.WorkOrder
 GROUP BY ProductID;
 
 -- DESAFIO 8/1
+--Identifique as provincias (stateProvinceID) com o maior número de cadastros no sistema, 
+--contar quais provincias (stateProvinceID) estão registradas no banco de dados mais de 1000 vezes
 SELECT StateProvinceID, COUNT(StateProvinceID) AS Quantidade
 FROM Person.Address
 GROUP BY StateProvinceID
 HAVING COUNT(StateProvinceID) > 1000;
 
 -- DESAFIO 8/2
+-- Quais produtos (productID) não estão trazendo em média no mínimo 1 milhão em total de vendas (lineTotal).
 SELECT ProductID, AVG(LineTotal)
 FROM Sales.SalesOrderDetail
 GROUP BY ProductID
@@ -117,31 +140,37 @@ HAVING AVG(LineTotal) < 1000000;
 
 -- EXERCICIO 09 - AS
 -- DESAFIO 9/1
+--Encontrar o FirstName e LastName person.person
 SELECT FirstName AS Nome, LastName AS Sobrenome
 FROM Person.Person;
 
 -- DESAFIO 9/2
+--ProductNumber da tabela production.product "Número do Produto"
 SELECT ProductNumber AS Numero_Do_Produto
 FROM Production.Product;
 
 -- DESAFIO 9/3
+-- sales.SalesOrderDetail unitPrice "Preço Unitário"
 SELECT UnitPrice AS Preco_Unitario
 FROM Sales.SalesOrderDetail;
 
 -- EXERCICIO 10 - INNER JOIN
 -- DESAFIO 10/1
+-- Fazer o INNER JOIN de BusunessEntityId,Name,PhoneNumberTypeId,PhoneNumber
 SELECT PP.BusinessEntityID, PT.Name, PT.PhoneNumberTypeID, PP.PhoneNumber
 FROM Person.PhoneNumberType AS PT
 INNER JOIN Person.PersonPhone AS PP
 ON PP.PhoneNumberTypeID = PT.PhoneNumberTypeID;
 
 -- DESAFIO 10/2
+-- fazer o INNER JOIN de AddressId,City,StateProvinceId,Nome do Estado
 SELECT PA.AddressID, PA.City, SP.StateProvinceID, SP.Name
 FROM Person.Address AS PA
 INNER JOIN Person.StateProvince AS SP
 ON PA.StateProvinceID = SP.StateProvinceID;
 
 -- EXERCICIO 10 - UNION
+--Liste todos os valores únicos que sejam “Ken” como primeiro nome ou “J” como nome do meio na tabela Person.Person, em uma única coluna.
 SELECT FirstName
 FROM Person.Person
 WHERE FirstName = 'Ken'
@@ -151,11 +180,13 @@ FROM Person.Person
 WHERE MiddleName = 'J';
 
 -- EXERCICIO 11 - UNION
+-- Saber na tabela detalhe do pedido [Order Details] quais produtos tem o mesmo percentual de desconto.
 SELECT A.ProductID, A.Discount, B.ProductID, B.Discount
 FROM [Order Details] A, [Order Details] B
 WHERE A.Discount = B.Discount;
 
 -- EXERCICIO 12 - SUBQUERIES ou SUBSELECT
+-- Encontre todos os endereços que estão no estado de "Alberta"
 SELECT *
 FROM Person.Address
 WHERE StateProvinceID IN (
@@ -166,45 +197,57 @@ WHERE StateProvinceID IN (
 
 -- EXERCICIO 13 - SUBQUERIES ou SUBSELECT
 -- DESAFIO DATEPART
+-- Selecione apenas o mês da data ModifiedDate
 SELECT ModifiedDate, DATEPART(MONTH, ModifiedDate) AS Mes
 FROM Person.Person
 ORDER BY Mes ASC;
 
 -- EXERCICIO 14 - MANIPULACAO DE STRING
+-- Concatene FirstName e LastName
 -- CONCAT
 SELECT TOP 3 CONCAT(FirstName, LastName)
 FROM Person.Person;
 
+-- Faça UPPER de FirstName e LOWER de LastName
 -- UPPER e LOWER
 SELECT TOP 3 UPPER(FirstName), LOWER(LastName)
 FROM Person.Person;
 
 -- LEN
+-- COnte quantos caracteres tem cada LastName
 SELECT TOP 3 LastName, LEN(LastName)
 FROM Person.Person;
 
 -- SUBSTRING
+-- Em LastName encontre os caracteres de 1 a 3
 SELECT TOP 3 LastName, SUBSTRING(LastName, 1, 3)
 FROM Person.Person;
 
 -- EXERCICIO 14 - ROUND
+-- Arredonde o valor em 2 decimais
 SELECT ListPrice, ROUND(ListPrice, 2)
 FROM Production.Product;
 
+--EXERCICIO 15 está em print, era para mostrar quais são as chaves primarias e extrangeiras das tabelas
+
 -- EXERCICIO 16 - INSERT INTO
+-- Insira os dados na tablea Canal
 INSERT INTO Canal(CanalID, Nome, ContagemInscritos, DataCriacao)
 VALUES (1, 'Leticia', 2, '2019-01-01');
 
 -- EXERCICIO 17 - UPDATE
+-- Altere o Nome
 UPDATE Canal
 SET Nome = 'Rebeca'
 WHERE CanalID = 1;
 
 -- EXERCICIO 18 - ALTER TABLE
+-- Altere a estrutura da tabela Canal, incluindo a coluna "Ativo", os valores devem ser booleanos
 ALTER TABLE Canal
 ADD Ativo BIT;
 
 -- EXERCICIO 19 - CREATE TABLE e NOT NULL
+-- Crie duas tabelas e use o condicional NOT NULL em cada uma
 CREATE TABLE Pgto (
     Id INT NOT NULL,
     Nome VARCHAR(255) NOT NULL,
@@ -218,6 +261,7 @@ CREATE TABLE Quant (
 );
 
 -- EXERCICIO 20 - UNIQUE
+-- Crie duas tabelas utilizando condicionantes que mantenham resposta únicas
 CREATE TABLE Pgto1 (
     Id INT NOT NULL,
     Nome VARCHAR(255) NOT NULL,
