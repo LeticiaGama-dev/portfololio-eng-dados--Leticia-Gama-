@@ -1,1 +1,12 @@
 
+bebidas = []
+
+for i in range(5):
+    bebida = input('Digite o nome de uma das suas bebidas preferidas: ')
+    bebidas.append(bebida)
+    
+bebidas.sort()
+
+print(f'\nSuas bebidas preferidas são: ')
+for bebida in bebidas:
+    print(bebida)
